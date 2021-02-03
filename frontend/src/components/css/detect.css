@@ -1,0 +1,21 @@
+.detect_main{
+    text-align: center;
+    padding: 50px;
+}
+
+#progress_bar{
+    margin: 90px;
+    height: 20px;
+    color:red;
+}
+
+#back_button{
+    background-color : rgb(46, 59, 85);
+    color: silver;
+    position: fixed;
+    bottom: 10%;
+    left: 4%;
+}
+#back_button:hover{
+    background-color: lightblue;
+}

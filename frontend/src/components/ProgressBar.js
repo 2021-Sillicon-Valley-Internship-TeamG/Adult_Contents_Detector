@@ -1,6 +1,8 @@
 import LinearProgress from '@material-ui/core/LinearProgress';
+//import { makeStyles, withStyles, lighten } from '@material-ui/core/styles';
 import { render } from '@testing-library/react';
 import React from 'react';
+import './css/detect.css'
 
 class ProgressBar extends React.Component{
     constructor(props){
@@ -9,11 +11,12 @@ class ProgressBar extends React.Component{
             response_status_num : this.props.response_status_num
         }
     }
-
+    
     render(){
         return (
         <div className='progress_bar'>
-            <LinearProgress variant="determinate" value={this.state.response_status_num} />
+            <LinearProgress id='progress_bar' value={this.state.response_status_num} />
+            {/*variant="determinate" */}
           </div>
         );
     }

@@ -8,13 +8,16 @@ import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button'
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
+import IconButton from '@material-ui/core/IconButton'
+import ArrowBackIosOutlinedIcon from '@material-ui/icons/ArrowBackIosOutlined';
+import Fab from '@material-ui/core/Fab';
 import axios from 'axios';
 
 class Result extends React.Component{
     constructor(props){
         super(props);
         this.state={
-            loading : false,
+            loading : 0,
             response_data : this.props.location.state.response_data,
             response_img_list : this.props.location.state.response_img_list.img_dict,
             changed_img_list : [],
@@ -30,12 +33,12 @@ class Result extends React.Component{
         }
     }
     
-    componentDidMount(){
+    gogogogogo(){
         var loading_this = this;
         setTimeout(function() {
-            loading_this.setState({loading : true})
+            loading_this.setState({loading : 1})
             console.log('loading'+loading_this.state.loading)
-        }, 3000);
+        }, 1000);
     }
     make_Video(){
         const { playing } = this.state
@@ -142,25 +145,21 @@ class Result extends React.Component{
         } else {
             _video_final_censored = "19세 이용가"
         }
+        setTimeout(function() {
         check_censored_this.setState({
             Res_G : censored_G,
             Res_PG : censored_PG,
             Res_R : censored_R,
             video_final_censored : _video_final_censored
         });
-        setTimeout(function() {
-            console.log(check_censored_this.state.video_final_censored)
-        }, 3000);
+        console.log(check_censored_this.state.video_final_censored)
+        }, 1000);
     }
 
-    make_hor_bar_chart() {
-        console.log('mhbc')
-        var mhbc_this = this;
-        return <Hor_bar_chart Res_G={mhbc_this.state.Res_G} Res_PG={mhbc_this.state.Res_PG} Res_R={mhbc_this.state.Res_R} ></Hor_bar_chart>
-    }
     make_Result(){
         console.log('mr')
         var make_Result_this = this;
+        console.log(make_Result_this.state.video_final_censored)
         return <Video_censored video_final_censored = {make_Result_this.state.video_final_censored}></Video_censored>
     }
     
@@ -209,43 +208,60 @@ class Result extends React.Component{
         
         var send_changed_censored = this.state.changed_img_list //바뀐 데이터
         click_save_this.make_rate_censored();                   //바뀐 데이터 적용해서 비율 적용
-
+        var final_video_censored=""
         // 마찬가지로 바뀐 video_censored 넣어서 보내야 함!
         setTimeout(function() {
-            console.log(send_changed_censored)
-            console.log(click_save_this.state.video_final_censored)
+            final_video_censored = click_save_this.state.video_final_censored;
             //업데이트된 비디오 censored 업데이트
             var send_changed_censored = click_save_this.state.changed_img_list.concat(
                 {id : 0,  censored : click_save_this.state.video_final_censored}
             )
             api.post('/update', send_changed_censored)
               .then(function (response) {
-                console.log(response);
+                  console.log(response.data.changed_count);
+                  console.log('pls'+final_video_censored)
+                  click_save_this.setState({
+                      video_final_censored : final_video_censored,
+                      loading : 2
+                  });
+                  click_save_this.make_rate_censored(); 
             }).catch(function (error) {
                 console.log(error);
             });
-        }, 3000);
+        }, 1000);
     }
 
     render(){
         if(this.state.Res_PG+this.state.Res_R+this.state.Res_G === 0){
             this.make_rate_censored();
         }
-        if(this.state.loading === false) {
+        if(this.state.loading === 0 || this.state.loading === 2) {
+            this.gogogogogo();
             return(
                 <div id="loading">
-                    <h1>데이터 가져오는 중입니다......</h1>
+                    {this.state.loading===0? <h1>데이터 가져오는 중입니다......</h1> : <h1></h1>}
                 </div>
             )
         }
         else{
         return (
         <div className="result">
+        
+        <IconButton edge="start" color="inherit" aria-label="menu">
+            <ArrowBackIosOutlinedIcon onClick={()=> this.props.history.push('/detect')}/>
+        </IconButton>
+
         <button name='redirect_btn' onClick={()=> this.props.history.push('/')}>Redirect!</button>
-        <div align="center">{this.make_hor_bar_chart()}</div>
+        <div align="center">
+        </div>
             <Grid container spacing={1} item align="center" justify="center">
-                <Grid className='MuiGrid-align-items-xs-center' xs={12} sm={7}><div className='player-wrapper'>{this.make_Video()}</div></Grid>
+                <Grid className='MuiGrid-align-items-xs-center' xs={12} sm={7}>
+                    <div className='player-wrapper'>{this.make_Video()}</div>
+                    <br></br>
+                    {this.make_Result()}
+                </Grid>
                 <Grid className='MuiGrid-align-items-xs-center' item justify="center" align="center" xs={12} sm={5}>
+                <Hor_bar_chart Res_G={this.state.Res_G} Res_PG={this.state.Res_PG} Res_R={this.state.Res_R} ></Hor_bar_chart>
                 {this.make_image_list()}
                 <Grid
                 container
@@ -256,7 +272,7 @@ class Result extends React.Component{
                 </Grid>
                 </Grid>
             </Grid>
-            <div>{this.make_Result()}</div>
+            
             <div>
             <input
             type='range' min={0} max={0.999999} step='any'
@@ -276,13 +292,14 @@ class Video_censored extends React.Component{
     constructor(props){
         super(props);
         this.state={
-            video_final_censored : this.props.video_final_censored
+            video_final_censored : this.props.video_final_censored,
+            video_final_changed : false
         }
     }
     render(){
         return (
         <div className="video_censored">
-            <p>이 동영상은 {this.state.video_final_censored} 입니다.</p>
+            <h3>이 동영상은 {this.state.video_final_censored} 입니다.</h3>
         </div>
         );
     }

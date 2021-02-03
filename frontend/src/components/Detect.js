@@ -2,7 +2,10 @@ import React from 'react';
 import { Redirect, withRouter  } from 'react-router-dom';
 import Spinner from 'react-bootstrap/Spinner';
 import axios from 'axios';
-import ProgressBar from './ProgressBar.js';
+import ProgressBar from './ProgressBar';
+import IconButton from '@material-ui/core/IconButton'
+import ArrowBackIosOutlinedIcon from '@material-ui/icons/ArrowBackIosOutlined';
+import Fab from '@material-ui/core/Fab';
 
 
 const api = axios.create({
@@ -202,7 +205,7 @@ class Detect extends React.Component{
         }
         
         return (
-        <div className="body_main">
+        <div className="detect_main">
             <form id="img_input_form" runat="server" action="" method="post" onSubmit={this.detectClick.bind(this)}>
             
             <div id="preview_div"></div>
@@ -213,12 +216,13 @@ class Detect extends React.Component{
                 <input type="textarea" name = "input_url" id="img_url"></input>
                 {button}
             </div>
-            <br></br>
-            <button name='redirect_btn' onClick={()=> this.props.history.push('/')}>Redirect!</button>
-            <br></br>
             <h2>{this.state.response_status}</h2>
             <ProgressBar response_status_num={this.state.response_status_num}></ProgressBar>
             </form>
+
+            <Fab id='back_button'>
+            <ArrowBackIosOutlinedIcon onClick={()=> this.props.history.push('/')}/>
+            </Fab>
         </div> 
         );
     }
