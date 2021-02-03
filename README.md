@@ -4,9 +4,12 @@
 
 ### 사용 기술
 이 프로젝트는 MVC 패턴 구조를 따르고 있습니다. Model과 Controller는 backend로 처리했고, View는 frontend로 처리했습니다.
-View는 React.js 라이브러리를 통해 제작되며, Web apllication API는 Flask 프레임워크를 사용합니다. 
-배포에는 Web server로 Niginx를, Web application server로는 gunicorn을 사용합니다. 실제 구동 시 AWS를 통해 실행됩니다.  
+
+View는 React.js 라이브러리를 통해 제작되며, Web apllication API는 Flask 프레임워크를 사용합니다.  
 또한 DB 쿼리를 비동기 처리 하기 위해 RabbitMQ와 Celery를 부가적으로 사용합니다. 
+
+배포에는 Web server로 Niginx를, Web application server로는 gunicorn을 사용합니다. 실제 구동 시 AWS를 통해 실행됩니다. 
+
 Database로는 gcp의 PostgreSQL instance를 사용하고 SQLAlchemy로 Flask와 연동합니다. 그리고 DB Migration을 위해 alembic을 사용합니다.  
 
 - React.js
