@@ -44,34 +44,62 @@ npm run start
 ```bash
 ├── README.md                 - 리드미 파일
 │
-├── flask_server/             - 백엔드 플라스크 디렉토리
-│   ├── app.py                - 서버 시작, 서버 api reply 처리
-│   ├── dbcon.py              - 디비 컨트롤러 파일
+│
+├─── backend/             - 백엔드 플라스크 디렉토리
+│   ├── app.py                - 서버 시작, 서버 api reply 처리, Front와 소통을 통해 기능을 호출하고 처리하는 역할
+│   ├── config.ini             - GCP에 있는 postgreSQL와 연결하기 위한 key가 존재하는 파일
 │   ├── flask_celery.py       - celery 생성 파일
-│   ├── task.py               - queue 적재 task 생성 파일
-│   ├── models.py             - 디비 모델 파일
+│   ├── task.py                - queue 적재 task 생성 파일
+│   ├── models.py             - postgreSQL 디비 모델 파일
 │   ├── swagger.py            - swagger 실행 파일
-│   ├── models.py             - 디비 모델 파일
+│   ├── views.py               - SQLAlchamy의 기능을 정의한 파일
+│   ├── (my-key.json)         - GCP에 접속하기 위한 key 파일, 보안 상 이유로 git에는 제공하지 않음
+│   ├── requirements.txt     - app.py를 구동하기위한 모듈들을 정리한 파일
 │   │
-│   ├── data/                 - 백엔드 동영상, 이미지 저장 디렉토리
-│   │  └── screenshot/        - 추출 이미지 저장 디렉토리
+│   ├── data/                 - 백엔드 동영상, 이미지 임시 저장 디렉토리
+│   │  └── .keep            - data root, data 폴더를 유지하기 위한 dummy file
 │   │ 
-│   └── templates/            - api + ai 등 기능적 파일 디렉토리
-│      ├── ffmpeg.js          - 동영상 처리(이미지 추출) 파일
-│      └── kakao_api.py       - kakao vision api
-│ 
-├── migrations/               - 디비 연동 디렉토리
+│   ├── function/            - api + ai 등 기능적 파일 디렉토리
+│   │  ├── ffmpeg.py          - 동영상을 가져와 Frame을 추출하는 기능, ffmpeg 프로그램과 연동
+│   │  │
+│   │  ├── gcp_control.py    - Video와 Frame이 저장된 GCP Storage에 업로드,다운로드 및 접근 처리 
+│   │  │
+│   │  └── kakao_api.py       - kakao vision api, 해당 Frame을 가져와 유해성 유무를 판별하는 기능
+│   │      
+│   │ 
+│   └── migrations/               - DB 마이그레이션 SQLAlchemy 기반 툴 alembic 디렉토리
+│      │
+│      ├── version/    - 해당 alembic 기능 디렉토리
+│      │  └── b7218a3671db_.py - alembic 마이그레이션 기능 파일
+│      │
+│      ├── alembic.ini    - alembic 설정 파일
+│      │
+│      ├── env.py    - alembic 환경 설정
+│      │
+│      └──script.py.mako
 │
-├── node_modules/             - module 디렉토리
-│   │ 
-├── public/                   - 리액트 디폴드 디렉토리
-│   │ 
-├── src/                      
-│   └── components/           - rendering 할 제작 컴포넌트 디렉토리
-│   │  ├── Home.js            - home 화면, 입력 파일과 url 처리
-│   │  └── Result.js          - result 화면
+├── frontend/
+│   │	    
+│   ├── public/                - 리액트 디폴드 디렉토리
+│   │    
+│   ├── src/                      
+│   │	└── components/           - rendering 할 제작 컴포넌트 디렉토리
+│   │	   │  │
+│   │	   │  ├ css /    - 컴포넌트들의 css
+│   │	   │  │
+│   │	   │  ├── Home.js          - Home 화면, 시작화면 
+│   │	   │  ├── Hor_bar_chart.js          - result 화면에서 Frame 등급 비율을 나타내는 차트
+│   │	   │  ├── Detect.js          - detect 화면, 입력 파일과 url 처리
+│   │	   │  ├── ProgressBar.js          - Detect 과정에서 걸리는 로딩을 시각화
+│   │	   │  └── Result.js          - result 화면
+│   │	   │
+│   │       ├── App.js & App.css    - components들을 넣을 상위 컴포넌트
+│   │	   │
+│   │	   ├── index.js & index.css    - 최상위 Root 컴포넌트
+│   │	   │
+│   │	   └── images/               - static 이미지 디렉토리 (ex. logo)
 │   │
-│   └── images/               - static 이미지 디렉토리 (ex. logo)
-│
-└── App.js                    - components들을 넣을 상위 컴포넌트
+│   └──  package.json & package.lock.json
+│      
+└── .gitignore		
 ```  
