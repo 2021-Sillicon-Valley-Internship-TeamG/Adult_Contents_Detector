@@ -130,6 +130,7 @@ def detectFinal():
     censored_R = 0
     
     video_id = views.get_video_id(video_filename)
+    print(video_id)
 
     for filename in list_dir:
         count += 1
@@ -175,12 +176,17 @@ def readdb():
 
     img_dict={}
     idx = 0
-    for id, location, time_frame, ml_censored in contents_analysis:
+    for id, location, time_frame, ml_censored, admin_censored in contents_analysis:
+        print(admin_censored)
         img={}
         img['id'] = id
         img['location'] = gcp_control.generate_download_signed_url_v4('teamg-data', video_filename + '/frm-' + str(idx) + '.jpg')
         img['time_frame'] = time_frame
-        img['ml_censored'] = ml_censored
+        if admin_censored == None:
+            img['ml_censored'] = ml_censored
+        else:
+            img['ml_censored'] = admin_censored
+        
 
         img_dict[idx]=img
         idx += 1
