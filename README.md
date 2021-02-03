@@ -96,9 +96,9 @@ npm run start
 │   │	   │  ├── ProgressBar.js          - Detect 과정에서 걸리는 로딩을 시각화
 │   │	   │  └── Result.js          - result 화면
 │   │	   │
-│   │       ├── App.js & App.css    - components들을 넣을 상위 컴포넌트
+│   │    ├── App.js & App.css
 │   │	   │
-│   │	   ├── index.js & index.css    - 최상위 Root 컴포넌트
+│   │	   ├── index.js & index.css
 │   │	   │
 │   │	   └── images/               - static 이미지 디렉토리 (ex. logo)
 │   │
