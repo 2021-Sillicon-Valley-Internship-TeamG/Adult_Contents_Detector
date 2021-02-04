@@ -13,7 +13,18 @@
     width : 80%;
     vertical-align: middle;
 }
+#detect_body h1{
+    padding-top: 20px;
+    margin-bottom: 30px;
+    font-weight: bold;
+    font-size: 40px;
+    text-shadow: 0px 1px #ffffff, 10px 10px 0px #dad7d7;
+}
 
+#img_url{
+    width: 50%;
+    font-size:20px;
+}
 .user_input{
     margin-bottom: 50px;
 }
@@ -21,7 +32,7 @@
 #progress_bar{
     margin: 20px;
     height: 20px;
-    color:red;
+    position: relative;
 }
 
 #back_button{
@@ -35,4 +46,19 @@
 }
 #back_button:hover{
     background-color: lightblue;
+}
+
+#detect_button{
+    position: relative;
+    margin-top: 3%;
+    bottom: 40px;
+    font-size: 20px;
+    font-family: 'M PLUS 1p', sans-serif;
+    font-weight: 100px;
+    color : silver;
+    background-color: rgb(46, 59, 85);
+    box-Shadow: '0 0 0 0.2rem rgba(0,123,255,.5)',
+}
+#detect_button:hover{
+    background-color: rgb(46, 59, 85, 0.5);
 }

@@ -18,6 +18,7 @@ class Result extends React.Component{
         super(props);
         this.state={
             loading : 0,
+            //video_id : this.props.location.state.video_id,
             response_data : this.props.location.state.response_data,
             response_img_list : this.props.location.state.response_img_list.img_dict,
             changed_img_list : [],
@@ -202,6 +203,7 @@ class Result extends React.Component{
         var click_save_this = this;
         console.log('click_save')
         console.log(this.state.changed_img_list)
+        //console.log(this.state.video_id)
         const api = axios.create({
             baseURL: 'http://localhost:5000'
         })
@@ -209,6 +211,13 @@ class Result extends React.Component{
         var send_changed_censored = this.state.changed_img_list //바뀐 데이터
         click_save_this.make_rate_censored();                   //바뀐 데이터 적용해서 비율 적용
         var final_video_censored=""
+
+        /*
+        const video_id = this.state.video_id;
+        var formData = new FormData();
+        formData.append("video_id", video_id);
+        */
+
         // 마찬가지로 바뀐 video_censored 넣어서 보내야 함!
         setTimeout(function() {
             final_video_censored = click_save_this.state.video_final_censored;
@@ -216,6 +225,7 @@ class Result extends React.Component{
             var send_changed_censored = click_save_this.state.changed_img_list.concat(
                 {id : 0,  censored : click_save_this.state.video_final_censored}
             )
+            //formData.append("changed_lists", send_changed_censored);
             api.post('/update', send_changed_censored)
               .then(function (response) {
                   console.log(response.data.changed_count);
@@ -238,15 +248,17 @@ class Result extends React.Component{
         if(this.state.loading === 0 || this.state.loading === 2) {
             this.gogogogogo();
             return(
+                <div id='result_body' className="result">
                 <div id="loading">
-                    {this.state.loading===0? <h1>데이터 가져오는 중입니다......</h1> : <h1></h1>}
+                    {this.state.loading===0? <h1 id="loading_log">데이터 가져오는 중입니다......</h1> : <h1></h1>}
+                </div>
                 </div>
             )
         }
         else{
         return (
         <div id='result_body' className="result">
-        
+        <h1>Result</h1>
         <div align="center">
             </div>
             <Grid id="result_grid" container spacing={1} item align="center" justify="center">

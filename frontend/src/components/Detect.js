@@ -7,6 +7,9 @@ import Fab from '@material-ui/core/Fab';
 import './css/detect.css'
 import LinearProgress from '@material-ui/core/LinearProgress';
 import Button from '@material-ui/core/Button'
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 
 
 const api = axios.create({
@@ -21,7 +24,8 @@ class Detect extends React.Component{
             btn_clicked_flag : 0,           //detectClick && -> flag = 1 
             response_data : "",              //back -> response -> result.js
             response_img_list : [],
-            response_status : []
+            response_status : [],
+            radio_value : ""
         };
     }
 
@@ -42,14 +46,14 @@ class Detect extends React.Component{
 
     detectClick(e) {
         e.preventDefault();
-        var photoFile = document.getElementById("input_img");
-        var url_input = document.getElementById("img_url").value;
+        var photoFile = document.getElementById("input_img")===null? undefined : document.getElementById("input_img");
+        var url_input = document.getElementById("img_url")===null? undefined :  document.getElementById("img_url").value;
         var flag = 0;
         const detect_click_this = this;
         var status_sentence = detect_click_this.state.response_status;
         status_sentence.push(<h4>video uploading...</h4>)
             
-        if(photoFile.files[0]!==undefined) {
+        if(photoFile!==undefined) {
             this.setState({btn_clicked_flag: 1});  // set btn_flag = 1
             flag = this.file_api_call(photoFile);
         }
@@ -59,10 +63,6 @@ class Detect extends React.Component{
         } else {
             // photoFile and url_input both are all empty -> pass
         }
-
-        // Input 입력값을 모두 초기화!
-        photoFile.files = null;
-        document.getElementById("img_url").value = null;
     }
 
     //file 처리
@@ -80,8 +80,10 @@ class Detect extends React.Component{
             console.log(response);
             var status_sentence = home_this.state.response_status;
             status_sentence.push(<h4>{response.data.video_filename} is uploaded</h4>)
+            //const video_id = response.data.video_id
             home_this.setState({
                 response_status : status_sentence,
+                //video_id : video_id
             })
             return home_this.frame_uploading();
         }).catch(function (error) {
@@ -101,6 +103,7 @@ class Detect extends React.Component{
         api.post('/videoUploading', formData)
           .then(function (response) {
             console.log(response);
+            //const video_id = response.data.result.video_id
             var status_sentence = home_this.state.response_status;
             status_sentence.push(<h4>{response.data.video_filename} is uploaded</h4>)
             home_this.setState({
@@ -113,6 +116,10 @@ class Detect extends React.Component{
     }
 
     frame_uploading(){
+        /*console.log(typeof video_id)
+        var formData = new FormData();
+        formData.append("video_id", video_id);
+        */
         const api = axios.create({
             baseURL: 'http://localhost:5000'
         })
@@ -131,11 +138,16 @@ class Detect extends React.Component{
             }, 5000);
         }).catch(function (error) {
             console.log(error);
-          });
+        });
     }
 
     //request detecting
     final_detect(){
+        /*
+        var formData = new FormData();
+        formData.append("video_id", video_id);
+        */
+
         const api = axios.create({
             baseURL: 'http://localhost:5000'
         })
@@ -159,8 +171,12 @@ class Detect extends React.Component{
     }
 
     make_img_list(){
-        var detect_this = this;
-
+        /*
+        
+        var formData = new FormData();
+        formData.append("video_id", video_id);
+        */
+       var detect_this = this;
         const api = axios.create({
             baseURL: 'http://localhost:5000'
         })
@@ -177,14 +193,11 @@ class Detect extends React.Component{
         });
     }
 
-    make_log = () =>{
-        console.log('make_log')
-        
-    }
-    hi = () => {
-        var hi_this = this;
-        hi_this.setState({btn_clicked_flag: 1}); 
-    }
+    handleChange = (event) => {
+        this.setState({radio_value : event.target.value});
+        console.log(this.state.radio_value)
+    };
+
     render(){
         // When loading is complete, go to "Result.js"
         let button;
@@ -192,29 +205,42 @@ class Detect extends React.Component{
             return <Redirect to={{
                 pathname: '/result',
                 state : {
+                    //video_id : this.state.video_id,
                     response_data : this.state.response_data,
                     response_img_list : this.state.response_img_list
                 }
             }}></Redirect>
         }
+        let input_file = document.getElementById('input_img');
 
         return (
         <div id="detect_body" className="detect_main">
+            <h1>Input Your Video</h1>
             <form id="img_input_form" runat="server" action="" method="post" onSubmit={this.detectClick.bind(this)}>
             
-            <div id="preview_div"></div>
-            
-            <div className="form_div">
-                <input className="user_input" type="file" name="input_img" id="input_img" onChange={this.previewImg.bind(this)}></input>
-                <br></br>
-                <input className="user_input" type="textarea" name = "input_url" id="img_url" placeholder="Input Youtube Video"></input>
-                <input type="submit" value="DETECT"></input>
-                {/*<Button boxShadow={3} id='start_button' variant="contained" onClick={this.detectClick.bind(this)} >DETECT</Button>*/}
+            <div id="radio_group" style={{position : 'relative', top : '10%', left : '45%', margin : '10px auto'}}>
+            <RadioGroup row aria-label="gender" name="gender1" onChange={this.handleChange}>
+                <FormControlLabel className="radio_btt" value="file" control={<Radio color="primary" />} label="File" />
+                <FormControlLabel className="radio_btt" className="radio_btt" value="url" control={<Radio color="primary" />} label="URL" />
+            </RadioGroup>
             </div>
             
-            {/*<Log_Component response_status={this.state.response_status}></Log_Component>*/}
-            
+            <div id="preview_div"></div>
+            {this.state.radio_value!==''?
+            <div className="form_div">
+                {this.state.radio_value==='file'?
+                <input className="user_input" type="file" name="input_img" id="input_img" onChange={this.previewImg.bind(this)}></input>
+                :
+                <input className="user_input" type="textarea" name = "input_url" id="img_url" placeholder="Input Youtube Video url"></input>
+                }
+            </div>
+            :
+            <div></div>
+            }       
             </form>
+
+            <Button boxShadow={3} id='detect_button' onClick={this.detectClick.bind(this)} variant="contained">DETECT</Button>
+            
 
             <div className='progress_bar'>
                 {this.state.btn_clicked_flag===0?

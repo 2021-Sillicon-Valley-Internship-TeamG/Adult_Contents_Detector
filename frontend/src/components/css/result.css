@@ -8,6 +8,13 @@
     vertical-align: middle;
     padding-top: 2%;
 }
+#detect_body h1{
+    padding-top: 20px;
+    margin-bottom: 30px;
+    font-weight: bold;
+    font-size: 40px;
+    text-shadow: 0px 1px #ffffff, 10px 10px 0px #dad7d7;
+}
 .result_comp{
     align-items: center;
 }
