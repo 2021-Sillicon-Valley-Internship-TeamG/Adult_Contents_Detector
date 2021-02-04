@@ -8,15 +8,26 @@ class ProgressBar extends React.Component{
     constructor(props){
         super(props);
         this.state={
-            response_status_num : this.props.response_status_num
+            btn_clicked_flag : this.props.btn_clicked_flag
         }
     }
     
     render(){
+        console.log(this.state.btn_clicked_flag)
+        let linear_progree_bar;
+
+        // conditional rendering for Loading 
+        if(this.state.btn_clicked_flag===0) {
+            // not occured click event, set button normally
+            linear_progree_bar = <LinearProgress variant='determinate' id='progress_bar' value='0' />;
+        }
+        else{
+            linear_progree_bar = <LinearProgress id='progress_bar'/>
+        }
+
         return (
         <div className='progress_bar'>
-            <LinearProgress id='progress_bar' value={this.state.response_status_num} />
-            {/*variant="determinate" */}
+            {linear_progree_bar}
           </div>
         );
     }

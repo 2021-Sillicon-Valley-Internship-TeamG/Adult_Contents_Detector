@@ -1,11 +1,10 @@
 import React from 'react';
 import { Redirect, withRouter  } from 'react-router-dom';
-import Spinner from 'react-bootstrap/Spinner';
 import axios from 'axios';
 import ProgressBar from './ProgressBar';
-import IconButton from '@material-ui/core/IconButton'
 import ArrowBackIosOutlinedIcon from '@material-ui/icons/ArrowBackIosOutlined';
 import Fab from '@material-ui/core/Fab';
+import LinearProgress from '@material-ui/core/LinearProgress';
 
 
 const api = axios.create({
@@ -20,8 +19,7 @@ class Detect extends React.Component{
             btn_clicked_flag : 0,           //detectClick && -> flag = 1 
             response_data : "",              //back -> response -> result.js
             response_img_list : [],
-            response_status : "",
-            response_status_num : 0
+            response_status : []
         };
     }
 
@@ -46,9 +44,6 @@ class Detect extends React.Component{
         var url_input = document.getElementById("img_url").value;
         var flag = 0;
         const detect_click_this = this;
-        detect_click_this.setState({
-            response_status_num : 10
-        })
         if(photoFile.files[0]!==undefined) {
             this.setState({btn_clicked_flag: 1});  // set btn_flag = 1
             flag = this.file_api_call(photoFile);
@@ -63,8 +58,6 @@ class Detect extends React.Component{
         // Input 입력값을 모두 초기화!
         photoFile.files = null;
         document.getElementById("img_url").value = null;
-
-        
     }
 
     //file 처리
@@ -80,10 +73,10 @@ class Detect extends React.Component{
             }
         }).then(function (response) {
             console.log(response);
-            const status_sentence = response.data.video_filename+"is uploaded"
+            var status_sentence = home_this.state.response_status;
+            status_sentence.push(<h2>{response.data.video_filename} is uploaded</h2>)
             home_this.setState({
                 response_status : status_sentence,
-                response_status_num : 40
             })
             return home_this.frame_uploading();
         }).catch(function (error) {
@@ -103,14 +96,12 @@ class Detect extends React.Component{
         api.post('/videoUploading', formData)
           .then(function (response) {
             console.log(response);
-            const status_sentence = response.data.video_filename+"is uploaded"
+            var status_sentence = home_this.state.response_status;
+            status_sentence.push(<h2>{response.data.video_filename} is uploaded</h2>)
             home_this.setState({
-                response_status : status_sentence,
-                response_status_num : 40
+                response_status : status_sentence
             })
             return home_this.frame_uploading();
-            //보류 home_this.make_img_list()
-            //보류 return 1;
         }).catch(function (error) {
             console.log(error);
           });
@@ -124,10 +115,11 @@ class Detect extends React.Component{
         api.post('/frameUploading')
           .then(function (response) {
             console.log(response);
-            const status_sentence = home_this.state.response_status + <br></br> +response.data.result.frame_counts + " frames are extracted from " + response.data.result.video_filename;
+            var status_sentence = home_this.state.response_status;
+            status_sentence.push(<h2>{response.data.result.frame_counts} frames are extracted from {response.data.result.video_filename}</h2>)
+            //const status_sentence = home_this.state.response_status + '\n' +response.data.result.frame_counts + " frames are extracted from " + response.data.result.video_filename;
             home_this.setState({
-                response_status : status_sentence,
-                response_status_num : 60
+                response_status : status_sentence
             })
             return setTimeout(function() {
                 home_this.final_detect();
@@ -147,11 +139,11 @@ class Detect extends React.Component{
         api.post('/detectFinal')
           .then(function (response) {
             console.log(response);
-            const status_sentence = home_this.state.response_status + <br></br> + "detecting...."
+            var status_sentence = home_this.state.response_status;
+            status_sentence.push(<h2>detecting....</h2>)
             home_this.setState({
                 response_status : status_sentence,
-                response_data:response.data,
-                response_status_num : 90
+                response_data:response.data
             })
             return setTimeout(function() {
                 home_this.make_img_list();
@@ -174,17 +166,26 @@ class Detect extends React.Component{
             console.log(response.data);
             detect_this.setState({
                 page_change_flag:1,
-                response_img_list:response.data,
-                response_status_num : 100
+                response_img_list:response.data
             })
         }).catch(function (error) {
             console.log(error);
         });
     }
 
+    make_log = () =>{
+        console.log('make_log')
+        
+    }
+    hi = () => {
+        var hi_this = this;
+        hi_this.setState({btn_clicked_flag: 1}); 
+    }
     render(){
         // When loading is complete, go to "Result.js"
         let button;
+        let progress_bar;
+        let log=[];
         if(this.state.page_change_flag===1) {
             return <Redirect to={{
                 pathname: '/result',
@@ -194,31 +195,45 @@ class Detect extends React.Component{
                 }
             }}></Redirect>
         }
-
-        // conditional rendering for Loading 
-        if(this.state.btn_clicked_flag===0) {
-            // not occured click event, set button normally
-            button = <input type="submit" value="UPLOAD"></input>;
-        } else {
-            // when clikc event occur, set button to React-bootstrap Loading Spinner
-            button = <Spinner animation="border" role="status"><span className="sr-only">Loading...</span></Spinner>; 
+        if(this.state.btn_clicked_flag===1){
+            progress_bar = <ProgressBar btn_clicked_flag={1}></ProgressBar>;
         }
-        
+        else progress_bar = <ProgressBar btn_clicked_flag={0}></ProgressBar>
+
+        log.push(
+            <h2>hi</h2>
+        )
+
+        log.push(
+        <h2>hello</h2> 
+        )
+
         return (
         <div className="detect_main">
             <form id="img_input_form" runat="server" action="" method="post" onSubmit={this.detectClick.bind(this)}>
             
             <div id="preview_div"></div>
-
+            
             <div className="form_div">
-                <input type="file" name="input_img" id="input_img" onChange={this.previewImg.bind(this)}></input>
+                <input className="user_input" type="file" name="input_img" id="input_img" onChange={this.previewImg.bind(this)}></input>
                 <br></br>
-                <input type="textarea" name = "input_url" id="img_url"></input>
-                {button}
+                <input className="user_input" type="textarea" name = "input_url" id="img_url" placeholder="Input Youtube Video"></input>
+                <input type="submit" value="DETECT"></input>
+            </div>
+            {/*<button onClick={()=> this.hi()}>hello</button>*/}
+            
+            {/*<Log_Component response_status={this.state.response_status}></Log_Component>*/}
+            
+            </form>
+
+            <div className='progress_bar'>
+                {this.state.btn_clicked_flag===0?
+                <LinearProgress variant='determinate' id='progress_bar' value='0' />
+                :
+                <LinearProgress variant='indeterminate' id='progress_bar' value='0' />
+                }
             </div>
             <h2>{this.state.response_status}</h2>
-            <ProgressBar response_status_num={this.state.response_status_num}></ProgressBar>
-            </form>
 
             <Fab id='back_button'>
             <ArrowBackIosOutlinedIcon onClick={()=> this.props.history.push('/')}/>
@@ -228,6 +243,19 @@ class Detect extends React.Component{
     }
 }
 
-// onChange 세분화, click event 처리 시, 해당 tag의 value도 모두 초기화 할 수 있도록 추가 구현.
+class Log_Component extends React.Component{
+    constructor(props){
+        super(props);
+        this.state={
+            response_status : this.props.response_status
+        }
+    }
+    render(){
+        return (this.state.response_status.map((line) => (
+            React.createElement('span', line,
+            React.createElement('br'))
+        )));
+    }
+}
 
 export default withRouter(Detect);

@@ -26,7 +26,6 @@ class App extends React.Component{
           <img height="50" alt="pirate_white.png" src={pirate_white}></img>
         </Toolbar>
         </AppBar>
-        
         <div id="main_body">
         <BrowserRouter>
             <Switch>

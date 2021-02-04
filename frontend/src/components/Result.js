@@ -247,11 +247,6 @@ class Result extends React.Component{
         return (
         <div className="result">
         
-        <IconButton edge="start" color="inherit" aria-label="menu">
-            <ArrowBackIosOutlinedIcon onClick={()=> this.props.history.push('/detect')}/>
-        </IconButton>
-
-        <button name='redirect_btn' onClick={()=> this.props.history.push('/')}>Redirect!</button>
         <div align="center">
         </div>
             <Grid container spacing={1} item align="center" justify="center">
@@ -280,6 +275,9 @@ class Result extends React.Component{
             onChange={this.handleSeekChange}
             style={{display:'none'}}/>
             </div>
+            <Fab id='back_button'>
+            <ArrowBackIosOutlinedIcon onClick={()=> this.props.history.push('/detect')}/>
+            </Fab>
         </div>
         );
         }
