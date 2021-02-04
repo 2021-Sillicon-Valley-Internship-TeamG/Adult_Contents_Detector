@@ -16,9 +16,7 @@ class ProgressBar extends React.Component{
         console.log(this.state.btn_clicked_flag)
         let linear_progree_bar;
 
-        // conditional rendering for Loading 
         if(this.state.btn_clicked_flag===0) {
-            // not occured click event, set button normally
             linear_progree_bar = <LinearProgress variant='determinate' id='progress_bar' value='0' />;
         }
         else{

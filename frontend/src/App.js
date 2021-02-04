@@ -21,7 +21,7 @@ class App extends React.Component{
   render(){
     return (
       <div className="app">
-        <AppBar position="static" style={{ background: '#2E3B55', padding:'10px', alignItems:'center'}}>
+        <AppBar position="static" style={{ background: 'rgba(46, 59, 85, 1)', padding:'10px', alignItems:'center'}}>
         <Toolbar>
           <img height="50" alt="pirate_white.png" src={pirate_white}></img>
         </Toolbar>

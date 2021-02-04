@@ -245,11 +245,11 @@ class Result extends React.Component{
         }
         else{
         return (
-        <div className="result">
+        <div id='result_body' className="result">
         
         <div align="center">
-        </div>
-            <Grid container spacing={1} item align="center" justify="center">
+            </div>
+            <Grid id="result_grid" container spacing={1} item align="center" justify="center">
                 <Grid className='MuiGrid-align-items-xs-center' xs={12} sm={7}>
                     <div className='player-wrapper'>{this.make_Video()}</div>
                     <br></br>

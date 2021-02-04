@@ -14,7 +14,7 @@ class Home extends React.Component{
 
     render(){
         return (
-        <div className="home">
+        <div id="home_body" className="home">
             <h1>Adult Contents Detector</h1>
             <p id='kor_desc'>
             '유해 콘텐츠 판별 어플리케이션'은 유해 콘텐츠를 판별하는 웹 어플리케이션입니다.<br></br>
@@ -23,6 +23,7 @@ class Home extends React.Component{
             판별이 끝나면, 동영상에서 추출된 각 프레임들의 결과를 볼 수 있고, 
             각 프레임들을 재판별할 수 있습니다.
             </p>
+            <Button boxShadow={3} id='start_button' variant="contained" component={Link} to={'/detect'}>START</Button>
             <hr></hr>
             <p id='en_desc'>
             'Adult Contents Detector' is a Web Application that can detect harmful contents.<br></br>
@@ -30,9 +31,11 @@ class Home extends React.Component{
             The CNN AI model determines local files or URLs.<br></br> 
             When detection is complete, 
             you are allowed to view all detected frames and change the detection result.<br></br>
+            <br></br>
+            @FlameCodingPirate
             </p>
-            <Button boxShadow={3} id='start_button' variant="contained" component={Link} to={'/detect'}>START</Button>
-        </div>
+            <br></br><br></br>
+           </div>
         );
     }
 }

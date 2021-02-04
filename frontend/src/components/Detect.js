@@ -4,7 +4,9 @@ import axios from 'axios';
 import ProgressBar from './ProgressBar';
 import ArrowBackIosOutlinedIcon from '@material-ui/icons/ArrowBackIosOutlined';
 import Fab from '@material-ui/core/Fab';
+import './css/detect.css'
 import LinearProgress from '@material-ui/core/LinearProgress';
+import Button from '@material-ui/core/Button'
 
 
 const api = axios.create({
@@ -44,6 +46,9 @@ class Detect extends React.Component{
         var url_input = document.getElementById("img_url").value;
         var flag = 0;
         const detect_click_this = this;
+        var status_sentence = detect_click_this.state.response_status;
+        status_sentence.push(<h4>video uploading...</h4>)
+            
         if(photoFile.files[0]!==undefined) {
             this.setState({btn_clicked_flag: 1});  // set btn_flag = 1
             flag = this.file_api_call(photoFile);
@@ -74,7 +79,7 @@ class Detect extends React.Component{
         }).then(function (response) {
             console.log(response);
             var status_sentence = home_this.state.response_status;
-            status_sentence.push(<h2>{response.data.video_filename} is uploaded</h2>)
+            status_sentence.push(<h4>{response.data.video_filename} is uploaded</h4>)
             home_this.setState({
                 response_status : status_sentence,
             })
@@ -97,7 +102,7 @@ class Detect extends React.Component{
           .then(function (response) {
             console.log(response);
             var status_sentence = home_this.state.response_status;
-            status_sentence.push(<h2>{response.data.video_filename} is uploaded</h2>)
+            status_sentence.push(<h4>{response.data.video_filename} is uploaded</h4>)
             home_this.setState({
                 response_status : status_sentence
             })
@@ -116,8 +121,7 @@ class Detect extends React.Component{
           .then(function (response) {
             console.log(response);
             var status_sentence = home_this.state.response_status;
-            status_sentence.push(<h2>{response.data.result.frame_counts} frames are extracted from {response.data.result.video_filename}</h2>)
-            //const status_sentence = home_this.state.response_status + '\n' +response.data.result.frame_counts + " frames are extracted from " + response.data.result.video_filename;
+            status_sentence.push(<h4>{response.data.result.frame_counts} frames are extracted from {response.data.result.video_filename}</h4>)
             home_this.setState({
                 response_status : status_sentence
             })
@@ -140,7 +144,7 @@ class Detect extends React.Component{
           .then(function (response) {
             console.log(response);
             var status_sentence = home_this.state.response_status;
-            status_sentence.push(<h2>detecting....</h2>)
+            status_sentence.push(<h4>detecting....</h4>)
             home_this.setState({
                 response_status : status_sentence,
                 response_data:response.data
@@ -184,8 +188,6 @@ class Detect extends React.Component{
     render(){
         // When loading is complete, go to "Result.js"
         let button;
-        let progress_bar;
-        let log=[];
         if(this.state.page_change_flag===1) {
             return <Redirect to={{
                 pathname: '/result',
@@ -195,21 +197,9 @@ class Detect extends React.Component{
                 }
             }}></Redirect>
         }
-        if(this.state.btn_clicked_flag===1){
-            progress_bar = <ProgressBar btn_clicked_flag={1}></ProgressBar>;
-        }
-        else progress_bar = <ProgressBar btn_clicked_flag={0}></ProgressBar>
-
-        log.push(
-            <h2>hi</h2>
-        )
-
-        log.push(
-        <h2>hello</h2> 
-        )
 
         return (
-        <div className="detect_main">
+        <div id="detect_body" className="detect_main">
             <form id="img_input_form" runat="server" action="" method="post" onSubmit={this.detectClick.bind(this)}>
             
             <div id="preview_div"></div>
@@ -219,8 +209,8 @@ class Detect extends React.Component{
                 <br></br>
                 <input className="user_input" type="textarea" name = "input_url" id="img_url" placeholder="Input Youtube Video"></input>
                 <input type="submit" value="DETECT"></input>
+                {/*<Button boxShadow={3} id='start_button' variant="contained" onClick={this.detectClick.bind(this)} >DETECT</Button>*/}
             </div>
-            {/*<button onClick={()=> this.hi()}>hello</button>*/}
             
             {/*<Log_Component response_status={this.state.response_status}></Log_Component>*/}
             

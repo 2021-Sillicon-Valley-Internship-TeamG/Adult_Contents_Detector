@@ -3,28 +3,46 @@
     font-size: 20px;
     vertical-align: middle;
 }
+
+#home_body{
+    margin-top: 2%;
+    margin-left: auto;
+    margin-right : auto;
+    background-color: rgba(244, 244, 244, 0.9);
+    border-radius: 20px 20px 20px 20px;
+    box-shadow: 10px 10px 10px gray;
+    height: 70%;
+    width : 80%;
+    vertical-align: middle;
+}
+
 p{
-    margin: 50px;
+    margin: 30px;
 }
 #en_desc{
-    font-size : 15px
+    font-size : 15px;
 }
 
 h1{
+    padding-top: 100px;
     margin-bottom: 30px;
     font-weight: bold;
-    text-shadow: 0px 1px #ffffff, 4px 4px 0px #dad7d7;
+    font-size: 60px;
+    text-shadow: 0px 1px #ffffff, 10px 10px 0px #dad7d7;
 }
 
 #start_button{
-    margin-top: 30px;
+    position: relative;
+    margin-top: 3%;
+    bottom: 40px;
     width: 20%;
     font-size: 30px;
     font-family: 'M PLUS 1p', sans-serif;
     font-weight: 100px;
     color : silver;
+    background-color: rgb(46, 59, 85);
     box-Shadow: '0 0 0 0.2rem rgba(0,123,255,.5)',
 }
 #start_button:hover{
-    color : rgb(46, 59, 85);
+    background-color: rgb(46, 59, 85, 0.5);
 }

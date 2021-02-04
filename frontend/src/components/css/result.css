@@ -1,3 +1,13 @@
+#result_body{
+    margin-left: auto;
+    margin-right : auto;
+    background-color: rgba(244, 244, 244, 0.8);
+    border-radius: 20px 20px 20px 20px;
+    box-shadow: 10px 10px 10px gray;
+    width : 95%;
+    vertical-align: middle;
+    padding-top: 2%;
+}
 .result_comp{
     align-items: center;
 }
