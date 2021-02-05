@@ -49,16 +49,15 @@ npm run start
 <img width="550px" height="300px" src="https://user-images.githubusercontent.com/55476302/106974572-437eb780-6798-11eb-827f-9595132459c6.gif"></img>
 
 
-### RabbitMQ - Celery
-<img width="550px" height="300px" src="https://user-images.githubusercontent.com/55476302/106974572-437eb780-6798-11eb-827f-9595132459c6.gif"></img>
+### RabbitMQ
+<img width="550px" height="300px" src="https://user-images.githubusercontent.com/55476302/106974760-96f10580-6798-11eb-9408-2c96730c8d16.gif"></img>
 
 
 
 ### Swagger
 <img width="550px" height="300px" src="https://user-images.githubusercontent.com/55476302/106968192-b7ff2980-678b-11eb-9d72-c63fb425bfe4.png"></img>
 
-### RabbitMQ
-<img width="550px" height="300px" src="https://user-images.githubusercontent.com/55476302/106974642-64dfa380-6798-11eb-917d-7f510a19e519.gif"></img>
+
 
 ## Directory Structure
 ```bash
