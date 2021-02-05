@@ -40,11 +40,25 @@ cd ../
 npm run start
 ```
 
+
+
+
+### Demo
+<img width="550px" height="300px" src="https://user-images.githubusercontent.com/55476302/106974444-129e8280-6798-11eb-8824-a195c2909dee.gif"></img>
+
+<img width="550px" height="300px" src="https://user-images.githubusercontent.com/55476302/106974572-437eb780-6798-11eb-827f-9595132459c6.gif"></img>
+
+
+### RabbitMQ - Celery
+<img width="550px" height="300px" src="https://user-images.githubusercontent.com/55476302/106974572-437eb780-6798-11eb-827f-9595132459c6.gif"></img>
+
+
+
 ### Swagger
-<img width="550px" height="300px" src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FVoAuD%2FbtqUf0TF603%2FuPaEWbmyRicseGoNRLtpsk%2Fimg.png"></img>
+<img width="550px" height="300px" src="https://user-images.githubusercontent.com/55476302/106968192-b7ff2980-678b-11eb-9d72-c63fb425bfe4.png"></img>
 
 ### RabbitMQ
-<img width="550px" height="300px" src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FupCAF%2FbtqUhzVOUBF%2F78efHoKKCXevEf8WgrAdNK%2Fimg.png"></img>
+<img width="550px" height="300px" src="https://user-images.githubusercontent.com/55476302/106974642-64dfa380-6798-11eb-917d-7f510a19e519.gif"></img>
 
 ## Directory Structure
 ```bash
@@ -109,3 +123,5 @@ npm run start
 │      
 └── .gitignore		
 ```  
+
+
