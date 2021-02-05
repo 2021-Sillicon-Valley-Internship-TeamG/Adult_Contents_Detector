@@ -248,17 +248,14 @@ class Result extends React.Component{
         if(this.state.loading === 0 || this.state.loading === 2) {
             this.gogogogogo();
             return(
-                <div id='result_body' className="result">
                 <div id="loading">
-                    {this.state.loading===0? <h1 id="loading_log">데이터 가져오는 중입니다......</h1> : <h1></h1>}
-                </div>
+                    {this.state.loading===0? <h1 id="loading_log"></h1> : <h1></h1>}
                 </div>
             )
         }
         else{
         return (
         <div id='result_body' className="result">
-        <h1>Result</h1>
         <div align="center">
             </div>
             <Grid id="result_grid" container spacing={1} item align="center" justify="center">
