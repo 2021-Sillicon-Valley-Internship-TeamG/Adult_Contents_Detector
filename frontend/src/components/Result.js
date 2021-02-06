@@ -18,7 +18,7 @@ class Result extends React.Component{
         super(props);
         this.state={
             loading : 0,
-            //video_id : this.props.location.state.video_id,
+            video_id : this.props.location.state.video_id,
             response_data : this.props.location.state.response_data,
             response_img_list : this.props.location.state.response_img_list.img_dict,
             changed_img_list : [],
@@ -170,6 +170,9 @@ class Result extends React.Component{
         const img_censored = e.target.value;
         const img_id = _id;
         document.getElementById(img_id).className=img_censored
+        const video_id = this.state.video_id
+        console.log(video_id)
+        
         //업데이트된 frame 붙여주기
         var _changed_img_list = this.state.changed_img_list.concat(
             {id : img_id,  censored : img_censored}
@@ -195,7 +198,8 @@ class Result extends React.Component{
         console.log(_original_contents)
         this.setState({
             changed_img_list : _changed_img_list,
-            response_img_list : _original_contents
+            response_img_list : _original_contents,
+            video_id : video_id
         });
     };
     //save button 이벤트 처리 함수 : 바뀐 데이터 실어서 보냄
@@ -203,7 +207,7 @@ class Result extends React.Component{
         var click_save_this = this;
         console.log('click_save')
         console.log(this.state.changed_img_list)
-        //console.log(this.state.video_id)
+        console.log(this.state.video_id)
         const api = axios.create({
             baseURL: 'http://localhost:5000'
         })
@@ -212,20 +216,19 @@ class Result extends React.Component{
         click_save_this.make_rate_censored();                   //바뀐 데이터 적용해서 비율 적용
         var final_video_censored=""
 
-        /*
-        const video_id = this.state.video_id;
-        var formData = new FormData();
-        formData.append("video_id", video_id);
-        */
-
+        const video_id = this.state.video_id
+        // const video_id = this.state.video_id;
+        // var formData = new FormData();
+        // formData.append("video_id", video_id);
+        
         // 마찬가지로 바뀐 video_censored 넣어서 보내야 함!
         setTimeout(function() {
             final_video_censored = click_save_this.state.video_final_censored;
             //업데이트된 비디오 censored 업데이트
             var send_changed_censored = click_save_this.state.changed_img_list.concat(
-                {id : 0,  censored : click_save_this.state.video_final_censored}
+                {id : 100+video_id,  censored : click_save_this.state.video_final_censored}
             )
-            //formData.append("changed_lists", send_changed_censored);
+            // formData.append("changed_lists", send_changed_censored);
             api.post('/update', send_changed_censored)
               .then(function (response) {
                   console.log(response.data.changed_count);

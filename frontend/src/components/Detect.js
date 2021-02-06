@@ -80,12 +80,12 @@ class Detect extends React.Component{
             console.log(response);
             var status_sentence = home_this.state.response_status;
             status_sentence.push(<h4>{response.data.video_filename} is uploaded</h4>)
-            //const video_id = response.data.video_id
+            const video_id = response.data.video_id
             home_this.setState({
                 response_status : status_sentence,
-                //video_id : video_id
+                video_id : video_id
             })
-            return home_this.frame_uploading();
+            return home_this.frame_uploading(video_id);
         }).catch(function (error) {
             console.log(error);
         });
@@ -103,28 +103,28 @@ class Detect extends React.Component{
         api.post('/videoUploading', formData)
           .then(function (response) {
             console.log(response);
-            //const video_id = response.data.result.video_id
+            const video_id = response.data.result.video_id
             var status_sentence = home_this.state.response_status;
-            status_sentence.push(<h4>{response.data.video_filename} is uploaded</h4>)
+            status_sentence.push(<h4>{response.data.result.video_filename} is uploaded</h4>)
             home_this.setState({
                 response_status : status_sentence
             })
-            return home_this.frame_uploading();
+            return home_this.frame_uploading(video_id);
         }).catch(function (error) {
             console.log(error);
           });
     }
 
-    frame_uploading(){
-        /*console.log(typeof video_id)
+    frame_uploading(video_id){
+        console.log(video_id)
         var formData = new FormData();
         formData.append("video_id", video_id);
-        */
+    
         const api = axios.create({
             baseURL: 'http://localhost:5000'
         })
         var home_this = this;
-        api.post('/frameUploading')
+        api.post('/frameUploading',formData)
           .then(function (response) {
             console.log(response);
             var status_sentence = home_this.state.response_status;
@@ -133,7 +133,7 @@ class Detect extends React.Component{
                 response_status : status_sentence
             })
             return setTimeout(function() {
-                home_this.final_detect();
+                home_this.final_detect(video_id);
                 return 1;
             }, 5000);
         }).catch(function (error) {
@@ -142,17 +142,16 @@ class Detect extends React.Component{
     }
 
     //request detecting
-    final_detect(){
-        /*
+    final_detect(video_id){
+        
         var formData = new FormData();
         formData.append("video_id", video_id);
-        */
 
         const api = axios.create({
             baseURL: 'http://localhost:5000'
         })
         var home_this = this;
-        api.post('/detectFinal')
+        api.post('/detectFinal',formData)
           .then(function (response) {
             console.log(response);
             var status_sentence = home_this.state.response_status;
@@ -162,7 +161,7 @@ class Detect extends React.Component{
                 response_data:response.data
             })
             return setTimeout(function() {
-                home_this.make_img_list();
+                home_this.make_img_list(video_id);
                 return 1;
             }, 5000);
         }).catch(function (error) {
@@ -170,23 +169,23 @@ class Detect extends React.Component{
         });
     }
 
-    make_img_list(){
-        /*
+    make_img_list(video_id){
         
         var formData = new FormData();
         formData.append("video_id", video_id);
-        */
+        
        var detect_this = this;
         const api = axios.create({
             baseURL: 'http://localhost:5000'
         })
         
-        api.post('/frame')
+        api.post('/frame',formData)
         .then(function (response) {
             console.log(response.data);
             detect_this.setState({
                 page_change_flag:1,
-                response_img_list:response.data
+                response_img_list:response.data,
+                video_id : video_id
             })
         }).catch(function (error) {
             console.log(error);
@@ -205,7 +204,7 @@ class Detect extends React.Component{
             return <Redirect to={{
                 pathname: '/result',
                 state : {
-                    //video_id : this.state.video_id,
+                    video_id : this.state.video_id,
                     response_data : this.state.response_data,
                     response_img_list : this.state.response_img_list
                 }
