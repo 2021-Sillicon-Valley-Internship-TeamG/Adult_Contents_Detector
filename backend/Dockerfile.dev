@@ -3,8 +3,6 @@ FROM python:3
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 
-RUN timedatectl
-RUN head -14 /var/lib/apt/lists/partial/deb.debian.org_debian_dists_buster_InRelease
 
 # RUN apt-get clean \
 #     &&  rm -rf /var/lib/apt/lists/* \
@@ -12,7 +10,7 @@ RUN head -14 /var/lib/apt/lists/partial/deb.debian.org_debian_dists_buster_InRel
 #     &&  apt-get upgrade \
 #     && apt-get update -o Acquire::CompressionTypes::Order::=gz \ 
 #     && apt-get update
-#RUN apt-get update -y
+RUN apt-get update -y
 RUN apt-get install -y ffmpeg 
 COPY requirements.txt /usr/src/app
 RUN pip install -r requirements.txt
