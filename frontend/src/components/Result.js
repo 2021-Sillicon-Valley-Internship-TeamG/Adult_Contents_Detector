@@ -209,7 +209,7 @@ class Result extends React.Component{
         console.log(this.state.changed_img_list)
         console.log(this.state.video_id)
         const api = axios.create({
-            baseURL: 'http://localhost:5000'
+            //baseURL: 'http://localhost:5000'
         })
         
         var send_changed_censored = this.state.changed_img_list //바뀐 데이터
@@ -229,7 +229,7 @@ class Result extends React.Component{
                 {id : 100+video_id,  censored : click_save_this.state.video_final_censored}
             )
             // formData.append("changed_lists", send_changed_censored);
-            api.post('/update', send_changed_censored)
+            api.post('api/update', send_changed_censored)
               .then(function (response) {
                   console.log(response.data.changed_count);
                   console.log('pls'+final_video_censored)

@@ -13,7 +13,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 
 
 const api = axios.create({
-    baseURL: 'http://localhost:5000'
+     //baseURL: 'http://localhost:5000'
 })
 
 class Detect extends React.Component{
@@ -72,7 +72,7 @@ class Detect extends React.Component{
         formData.append("file", photoFile.files[0]);
         formData.append("image_type", "1");
 
-        api.post('/videoUploading', formData, {
+        api.post('api/videoUploading', formData, {
             headers: {
                 'Content-Type': 'multipart/form-data'
             }
@@ -93,14 +93,14 @@ class Detect extends React.Component{
 
     url_api_call(url_input){
         const api = axios.create({
-            baseURL: 'http://localhost:5000'
+            //baseURL: 'http://localhost:5000'
         })
         var home_this = this;
         var formData = new FormData();
         formData.append("image_url", url_input);
         formData.append("image_type", "0");
         
-        api.post('/videoUploading', formData)
+        api.post('api/videoUploading', formData)
           .then(function (response) {
             console.log(response);
             const video_id = response.data.result.video_id
@@ -121,10 +121,10 @@ class Detect extends React.Component{
         formData.append("video_id", video_id);
     
         const api = axios.create({
-            baseURL: 'http://localhost:5000'
+            //baseURL: 'http://localhost:5000'
         })
         var home_this = this;
-        api.post('/frameUploading',formData)
+        api.post('api/frameUploading',formData)
           .then(function (response) {
             console.log(response);
             var status_sentence = home_this.state.response_status;
@@ -148,10 +148,10 @@ class Detect extends React.Component{
         formData.append("video_id", video_id);
 
         const api = axios.create({
-            baseURL: 'http://localhost:5000'
+            //baseURL: 'http://localhost:5000'
         })
         var home_this = this;
-        api.post('/detectFinal',formData)
+        api.post('api/detectFinal',formData)
           .then(function (response) {
             console.log(response);
             var status_sentence = home_this.state.response_status;
@@ -176,10 +176,10 @@ class Detect extends React.Component{
         
        var detect_this = this;
         const api = axios.create({
-            baseURL: 'http://localhost:5000'
+            //baseURL: 'http://localhost:5000'
         })
         
-        api.post('/frame',formData)
+        api.post('api/frame',formData)
         .then(function (response) {
             console.log(response.data);
             detect_this.setState({

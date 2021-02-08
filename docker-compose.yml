@@ -1,0 +1,91 @@
+# version: "3"
+# services:
+#   frontend:
+#     container_name: frontend
+#     build:
+#       context: ./frontend
+#       dockerfile: Dockerfile.dev
+#     ports:
+#       - 9090:80
+
+#   backend:
+#     container_name: backend
+#     build:
+#       context: ./backend
+#       dockerfile: Dockerfile.dev
+#     expose:
+#       - 5000
+#     volumes:
+#       - ./backend:/usr/src/app
+#     environment:
+#       - PYTHONUNBUFFERED=1
+#       - PYTHONIOENCODING=UTF-8
+#       - GOOGLE_APPLICATION_CREDENTIALS=/usr/src/app/my-key.json
+#       - FLASK_ENV=development
+#       #- FLASK_APP=app.py
+#       - FLASK_DEBUG=1
+
+#   rabbitmq:
+#     container_name: rabbitmq
+#     image: rabbitmq:3-management
+#     ports: 
+#       - 5672:5672
+#       - 15672:15672
+    
+  
+#   celery:
+#     container_name: celery
+#     build:
+#       context: ./backend
+#       dockerfile: Dockerfile.dev
+#     hostname: celery
+#     entrypoint: celery
+#     command: -A app.celery worker --loglevel=info
+#     volumes:
+#       - ./backend:/usr/src/app
+
+version: "3"
+services:
+  frontend:
+    container_name: frontend
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.dev
+    ports:
+      - 9090:80
+
+  backend:
+    container_name: backend
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.dev
+    expose:
+      - 5000
+    volumes:
+      - ./backend:/usr/src/app
+    environment:
+      - GOOGLE_APPLICATION_CREDENTIALS=/usr/src/app/my-key.json
+      - FLASK_ENV=development
+      #- FLASK_APP=app.py
+      - FLASK_DEBUG=1
+
+  rabbitmq:
+    container_name: rabbitmq
+    image: rabbitmq:3-management
+    ports: 
+      - 5672:5672
+      - 15672:15672
+    
+  
+  celery:
+    container_name: celery
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.dev
+    hostname: celery
+    entrypoint: celery
+    command: -A app.celery worker --loglevel=info
+    ports: 
+      - 5672:5672
+    volumes:
+      - ./backend:/usr/src/app

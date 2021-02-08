@@ -25,6 +25,8 @@ app.config['SQLALCHEMY_DATABASE_URI'] = config['DEFAULT']['SQLALCHEMY_DATABASE_U
 # 추가하지 않을 시 FSADeprecationWarning 주의가 떠서 추가해 줌
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
+api = Blueprint('api',__name__)
+
 import tasks
 
 import pytube
@@ -33,7 +35,7 @@ import views
 
 
     
-@app.route('/videoUploading', methods=['POST'])
+@api.route('/videoUploading', methods=['POST'])
 def videoUploading():
 
     # TODO : check file posted normally ( Local video file )
@@ -85,7 +87,7 @@ def videoUploading():
     return {'result' : result }
 
 
-@app.route('/frameUploading', methods=['POST'])
+@api.route('/frameUploading', methods=['POST'])
 def frameUploading():
 
     video_id = request.form['video_id']
@@ -106,7 +108,7 @@ def frameUploading():
     return {'result' : result}
 
 
-@app.route('/detectFinal', methods=['POST'])
+@api.route('/detectFinal', methods=['POST'])
 def detectFinal(): 
 
     # insert contents analysis to DB
@@ -157,7 +159,7 @@ def detectFinal():
 
 
 # read contents analysis from DB
-@app.route('/frame', methods=['POST'])
+@api.route('/frame', methods=['POST'])
 def readdb():
 
     video_id = request.form['video_id']
@@ -185,7 +187,7 @@ def readdb():
     return {'img_dict' : img_dict }
 
 #바뀐 frame censored와 video censored 업데이트 request 처리
-@app.route('/update', methods=['POST'])
+@api.route('/update', methods=['POST'])
 def update():
     changed_lists = request.get_json(force=True)
     
@@ -209,3 +211,5 @@ def update():
         
         count = count+1
     return {'changed_count' : count}
+
+app.register_blueprint(api, url_prefix='/api')
